@@ -2,7 +2,7 @@
 
 An ultra-modern, production-grade luxury fashion & lifestyle e-commerce storefront for the Sri Lankan market, modeled directly after world-class editorial fashion brands (such as **STYLEO** and **Revivy**).
 
-Developed to satisfy 100% of the **DecodeLabs Industrial Training Kit (Project 1)** criteria.
+
 
 ---
 
