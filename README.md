@@ -1,9 +1,6 @@
 # Project 1: Responsive E-Commerce Web Application (STYLEO Ceylon)
 
-### Student Information
-- **Name:** M. Reezma Hanan
-- **Module:** IT2308 - Web Application Development (Project 1)
-- **GitHub Repository:** [https://github.com/reezmahanan/Project-01](https://github.com/reezmahanan/Project-01)
+
 
 ---
 
