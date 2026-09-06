@@ -1,69 +1,96 @@
-# STYLEO CEYLON — Luxury Responsive E-Commerce Architecture
+# Project 1: Responsive E-Commerce Web Application (STYLEO Ceylon)
 
-An ultra-modern, production-grade luxury fashion & lifestyle e-commerce storefront for the Sri Lankan market, modeled directly after world-class editorial fashion brands (such as **STYLEO** and **Revivy**).
-
-
-
----
-
-## 🎨 Visual & Interactive Refinements
-
-1. **Floating Rotating Stamp Badge**:
-   - Continuous smooth SVG rotation (`NEW COLLECTION • STYLEO CEYLON`).
-   - Frosted dark glass circular backing with depth blur and high contrast.
-   - Positioned as a direct child of the hero arch card to guarantee zero clipping on any screen resolution.
-
-2. **100% Real Vector SVG Icons (Zero Emojis)**:
-   - Clean, professional SVG icons across the announcement bar, search box, product star ratings, payment methods, perks, and footer social links (Instagram, Facebook, Pinterest, and TikTok).
-   - Removed all casual emojis to maintain a pure luxury editorial aesthetic.
-
-3. **Interactive Customer Care Suite (Modals & Features)**:
-   - **Islandwide Courier Rates Modal**: Comprehensive rate table and timelines for Colombo, Greater Western, Central, Southern, and Outstation regions with Domex and Koombiyo Express.
-   - **7-Day Easy Returns & Exchanges Modal**: Step-by-step doorstep courier pickup process and guidelines.
-   - **Interactive FAQs Modal**: Accordion-style expandable questions and answers covering Cash on Delivery, Koko Pay in 3, tracking, and handloom fabrics.
-   - **WhatsApp Concierge Modal**: Direct WhatsApp launcher with 1-tap prefilled order, sizing, and tracking queries (+94 77 123 4567).
-
-4. **Expanded 16-Piece Luxury Catalog**:
-   - Tailored Mocha and Ivory Double-Breasted Blazers
-   - Artisanal Handloom Dumbara Kimonos
-   - Breathable Silk & Linen Cuban Collar Shirts
-   - Minimal White Leather Sneakers & Loafers
-   - Sculptural Leather Handbags & Woven Rush Studio Totes
-   - Ratnapura Certified Ceylon Blue Sapphire & Star Ruby Jewelry
+### Student Information
+- **Name:** M. Reezma Hanan
+- **Module:** IT2308 - Web Application Development (Project 1)
+- **GitHub Repository:** [https://github.com/reezmahanan/Project-01](https://github.com/reezmahanan/Project-01)
 
 ---
 
-## 📐 Mobile-First Responsive Framework
+## 📌 Project Overview
+This project is a fully responsive e-commerce web application created for **STYLEO Ceylon**, a modern Sri Lankan clothing and lifestyle brand. I developed this project for Project 1 to practice and demonstrate fundamental frontend web development skills.
 
-- **Mobile (< 768px)**:
-  - Single-column flow with full-width tap targets ($\ge 44\text{px}$).
-  - Horizontal circular category avatar scroller.
-  - Slide-down navigation drawer toggled by the hamburger button.
-  - Responsive modals and sliding shopping bag drawer.
-- **Tablet (`@media (min-width: 768px)`)**:
-  - 2-column hero grid.
-  - 2-column service ribbon.
-  - 3-column featured collection cards.
-  - 2-column product grid.
-  - Horizontal inline desktop navigation.
-- **Desktop (`@media (min-width: 1024px)`)**:
-  - Full-scale 2D macro layout floor-plan.
-  - 4-column horizontal service ribbon.
-  - 3-column product grid.
-  - Sticky customer dashboard and live order tracker (`top: 92px`).
+The application is built completely from scratch using **pure HTML, CSS, and Vanilla JavaScript**, without using any CSS frameworks (such as Bootstrap or Tailwind) or JavaScript libraries/frameworks (such as React or jQuery).
 
 ---
 
-## 🚀 How to Run
+## 🛠️ Technologies Used
+- **HTML5:** Semantic tags used throughout the layout (`<header>`, `<nav>`, `<main>`, `<article>`, `<aside>`, `<footer>`).
+- **CSS3:** Mobile-first approach, CSS Grid for the main layout, Flexbox for UI components, CSS custom properties (variables), and fluid typography with `clamp()`.
+- **Vanilla JavaScript (ES6+):** Pure JavaScript for state management, catalog rendering, cart actions, search/filter, and modal popups.
+- **Browser LocalStorage:** To store cart items, saved wishlist items, user login session, and placed orders so that data persists after refreshing the page.
 
-1. Double-click `index.html` in your file explorer to open in any web browser.
-2. Or serve locally with:
+---
+
+## ✨ Key Features Implemented
+
+1. **Product Catalog & Filtering:**
+   - 16 curated fashion items with realistic Sri Lankan pricing (in LKR).
+   - Category filter tabs (All, Clothing, Footwear, Accessories, Jewelry).
+   - Search bar to filter products by name or keywords with an instant clear button.
+   - Sort dropdown to sort by price (low to high, high to low) and customer ratings.
+
+2. **Shopping Bag & Cart Management:**
+   - Slide-out side drawer for the shopping bag.
+   - Increase (`+`), decrease (`-`), and remove item controls with live price calculations.
+   - Dynamic progress bar showing how much more to add to unlock free islandwide delivery (free above Rs. 8,500).
+
+3. **User Authentication (Sign In & Sign Out):**
+   - Clean sign-in modal dialog with email/phone and password fields.
+   - Top header button switches between **Sign In** and **Sign Out** based on the login state.
+   - **Cart Protection Gate:** Users must sign in before adding items to the shopping bag. If an unauthenticated user clicks "Add to Bag", the sign-in modal opens automatically, and once signed in, the item is added to their bag.
+   - Logging out clears the current cart so guest visitors cannot see previous session items.
+
+4. **Order Checkout & Live Dashboard:**
+   - Checkout modal to enter customer details (name, phone, email, district, city, address) and select payment method (Cash on Delivery, Koko Pay in 3, Bank Transfer, Visa/Mastercard).
+   - Submitting an order creates a traceable courier tracking number (e.g. `DOMEX-LK-XXXXX`).
+   - The sticky sidebar dashboard displays total orders placed, total spent, and live order status.
+
+5. **Wishlist:**
+   - One-click heart toggle on product cards to save items to wishlist, updated live in the header badge.
+
+6. **Customer Care & Information Modals:**
+   - Islandwide Delivery Rates table (Domex & Koombiyo timelines across Colombo, Suburbs, and Outstation).
+   - 7-Day Returns & Exchanges policy details.
+   - Frequently Asked Questions (FAQ) accordion.
+   - Direct WhatsApp Concierge contact link (+94 77 123 4567).
+
+---
+
+## 📱 Responsive Layout & Breakpoints
+The layout was designed mobile-first and tested for smooth adaptability across screen sizes:
+- **Mobile (< 768px):** Single-column layout, touch-friendly tap targets, hamburger slide-down menu.
+- **Tablet (768px – 1023px):** Two-column product grid, inline horizontal navigation bar, multi-column search controls.
+- **Desktop (≥ 1024px):** Three-column product grid, top announcement bar, and a sticky order tracking sidebar.
+
+---
+
+## 📁 Project Structure
+```text
+Project 1/
+│
+├── index.html      # Main HTML page with semantic landmarks and modals
+├── style.css       # Complete stylesheet (CSS Grid, Flexbox, Mobile-First media queries)
+├── app.js          # Vanilla JS state engine, product catalog, cart logic, and event listeners
+└── README.md       # Project documentation
+```
+
+---
+
+## 🚀 How to Run the Project
+1. Clone the repository:
    ```bash
-   python -m http.server 8000
-   # or
-   npx serve .
+   git clone https://github.com/reezmahanan/Project-01.git
    ```
-3. Test responsiveness across devices using Chrome/Firefox DevTools (`Ctrl + Shift + M`):
-   - **Mobile**: iPhone 14/15 (390px), Samsung Galaxy (360px)
-   - **Tablet**: iPad Mini / Air (768px – 820px)
-   - **Desktop**: 1024px, 1440px, 1920px
+2. Open the project directory:
+   ```bash
+   cd Project-01
+   ```
+3. Open `index.html` in any web browser (Chrome, Firefox, Edge, Safari) by double-clicking the file.  
+   *(No server setup or npm install is needed)*
+
+---
+
+## 👤 Author
+- **M. Reezma Hanan**
+- GitHub: [@reezmahanan](https://github.com/reezmahanan)
