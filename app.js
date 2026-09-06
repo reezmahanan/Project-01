@@ -185,17 +185,25 @@ const products = [
 ];
 
 // --- 2. Application State ---
+const initialUser = JSON.parse(localStorage.getItem("styleo-user") || "null");
 const state = {
-  cart: JSON.parse(localStorage.getItem("styleo-cart") || "[]"),
+  user: initialUser,
+  // Cart is only loaded if user is authenticated; guest cart is empty until sign-in
+  cart: initialUser ? JSON.parse(localStorage.getItem("styleo-cart") || "[]") : [],
   wishlist: JSON.parse(localStorage.getItem("styleo-wishlist") || "[]"),
   orders: JSON.parse(localStorage.getItem("styleo-orders") || "[]"),
-  user: JSON.parse(localStorage.getItem("styleo-user") || "null"),
+  pendingCartItem: null,
   filters: {
     category: "all",
     search: "",
     sort: "featured"
   }
 };
+
+// Ensure guest cart is clean if not signed in
+if (!initialUser) {
+  localStorage.removeItem("styleo-cart");
+}
 
 // Seed default initial order if fresh environment
 if (!state.orders.length) {
@@ -478,6 +486,11 @@ function renderCart() {
   }
 
   if (!state.cart.length) {
+    const emptySubtext = !state.user
+      ? `<p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;">Sign in to your STYLEO account to add items and manage your bag.</p>
+         <button type="button" id="cartSignInPromptBtn" class="primary-pill-btn" style="padding: 9px 22px; font-size: 0.84rem;">Sign In to Shop</button>`
+      : `<p style="font-size: 0.88rem; color: var(--text-muted);">Explore our new arrivals to elevate your personal style.</p>`;
+
     els.cartItems.innerHTML = `
       <div style="text-align: center; padding: 48px 16px;">
         <div style="width: 52px; height: 52px; margin: 0 auto 12px; border-radius: 50%; background: var(--surface-cream); display: grid; place-items: center; color: var(--text-muted);">
@@ -488,9 +501,20 @@ function renderCart() {
           </svg>
         </div>
         <h4 style="margin-bottom: 6px;">Your shopping bag is empty</h4>
-        <p style="font-size: 0.88rem; color: var(--text-muted);">Explore our new arrivals to elevate your personal style.</p>
+        ${emptySubtext}
       </div>
     `;
+
+    const promptBtn = document.getElementById("cartSignInPromptBtn");
+    if (promptBtn) {
+      promptBtn.addEventListener("click", () => {
+        closeDrawer();
+        openModal(els.accountModal);
+        const emailInput = document.getElementById("accEmail");
+        if (emailInput) setTimeout(() => emailInput.focus(), 100);
+      });
+    }
+
     if (els.checkoutBtn) {
       els.checkoutBtn.disabled = true;
       els.checkoutBtn.style.opacity = "0.45";
@@ -663,6 +687,11 @@ function handleAuthAction() {
     const prevName = state.user.name || "Member";
     state.user = null;
     localStorage.removeItem("styleo-user");
+    // Clear cart on sign out
+    state.cart = [];
+    localStorage.removeItem("styleo-cart");
+    renderCart();
+    updateDashboard();
     updateAuthUI();
     if (els.siteNav && els.siteNav.classList.contains("open")) {
       els.siteNav.classList.remove("open");
@@ -724,6 +753,16 @@ function closeDrawer() {
 
 // --- 8. Shopping Bag & Wishlist Actions ---
 function addToCart(id, customItem = null) {
+  // Authentication Gate: Only signed-in members can add to cart
+  if (!state.user) {
+    state.pendingCartItem = { id, customItem };
+    showToast("Please sign in to add items to your shopping bag!");
+    openModal(els.accountModal);
+    const emailInput = document.getElementById("accEmail");
+    if (emailInput) setTimeout(() => emailInput.focus(), 100);
+    return;
+  }
+
   const product = customItem || products.find((p) => p.id === id);
   if (!product) return;
 
@@ -792,22 +831,27 @@ if (els.continueShoppingBtn) els.continueShoppingBtn.addEventListener("click", c
 // Checkout Modal
 if (els.checkoutBtn) {
   els.checkoutBtn.addEventListener("click", () => {
+    if (!state.user) {
+      closeDrawer();
+      showToast("Please sign in before proceeding to checkout!");
+      openModal(els.accountModal);
+      const emailInput = document.getElementById("accEmail");
+      if (emailInput) setTimeout(() => emailInput.focus(), 100);
+      return;
+    }
     if (!state.cart.length) {
       showToast("Please add items to your shopping bag first!");
       return;
     }
     closeDrawer();
     openModal(els.checkoutModal);
-    if (state.user) {
-      const custName = document.getElementById("custName");
-      const custEmail = document.getElementById("custEmail");
-      if (custName && !custName.value) custName.value = state.user.name;
-      if (custEmail && !custEmail.value && state.user.email && state.user.email.includes("@")) {
-        custEmail.value = state.user.email;
-      }
+    const custName = document.getElementById("custName");
+    const custEmail = document.getElementById("custEmail");
+    if (custName && !custName.value) custName.value = state.user.name;
+    if (custEmail && !custEmail.value && state.user.email && state.user.email.includes("@")) {
+      custEmail.value = state.user.email;
     }
-    const nameInput = document.getElementById("custName");
-    if (nameInput) setTimeout(() => nameInput.focus(), 100);
+    if (custName) setTimeout(() => custName.focus(), 100);
   });
 }
 if (els.closeCheckoutBtn) els.closeCheckoutBtn.addEventListener("click", () => closeModal(els.checkoutModal));
@@ -853,6 +897,15 @@ if (els.accountForm) {
     if (custEmail && !custEmail.value && rawVal.includes("@")) custEmail.value = rawVal;
 
     showToast(`Welcome back, ${state.user.name}! Signed in to STYLEO Circle.`);
+
+    // If user attempted to add an item before signing in, automatically add it now
+    if (state.pendingCartItem) {
+      const pending = state.pendingCartItem;
+      state.pendingCartItem = null;
+      setTimeout(() => {
+        addToCart(pending.id, pending.customItem);
+      }, 350);
+    }
   });
 }
 
