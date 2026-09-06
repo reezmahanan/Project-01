@@ -805,236 +805,58 @@
       </div>
     </div>
 
-    <!-- Redesigned Unique Luxury Sign In Modal (STYLEO Atelier) -->
-    <div id="accountModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="authModalHeading">
-      <div class="auth-modal-card">
-        <!-- Close Button -->
-        <button id="closeAccountBtn" class="auth-close-btn" aria-label="Close sign in dialog">&times;</button>
-
-        <!-- Dynamic Container 1: Unauthenticated Sign In / Join Circle -->
-        <div id="authContentLoggedOut" class="auth-split-grid">
-          <!-- Left Pane: Editorial Brand Story & VIP Privileges -->
-          <div class="auth-brand-pane">
-            <div class="auth-brand-header">
-              <span class="auth-atelier-tag">CEYLON COUTURE ATELIER</span>
-              <div class="auth-brand-monogram">
-                <span class="monogram-letter">S</span>
-                <span class="monogram-star">✦</span>
-              </div>
-              <h3 id="authModalHeading" class="auth-brand-title">The Private Circle</h3>
-              <p class="auth-brand-desc">
-                An exclusive sanctuary for connoisseurs of handcrafted Ceylon silhouettes, ethical sapphires, and artisanal Dumbara weaves.
-              </p>
-            </div>
-
-            <!-- VIP Privileges List -->
-            <div class="auth-perks-list">
-              <div class="auth-perk-item">
-                <div class="auth-perk-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                </div>
-                <div>
-                  <strong>VIP Welcome Privilege</strong>
-                  <span>Automatic 10% off your first atelier order with code <code>CEYLON10</code></span>
-                </div>
-              </div>
-
-              <div class="auth-perk-item">
-                <div class="auth-perk-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="1" y="3" width="15" height="13" />
-                    <polygon points="16 8 20 8 23 11 23 16 16 16 8" />
-                    <circle cx="5.5" cy="18.5" r="2.5" />
-                    <circle cx="18.5" cy="18.5" r="2.5" />
-                  </svg>
-                </div>
-                <div>
-                  <strong>Priority Doorstep Dispatch</strong>
-                  <span>Next-day courier across Colombo 1–15 &amp; 48h islandwide tracking</span>
-                </div>
-              </div>
-
-              <div class="auth-perk-item">
-                <div class="auth-perk-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                  </svg>
-                </div>
-                <div>
-                  <strong>Private Wishlist &amp; Saved Bag</strong>
-                  <span>Reserve bespoke pieces with persistent cross-device synchronisation</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Sri Lankan Heritage Guarantee Quote -->
-            <div class="auth-atelier-footnote">
-              <span class="auth-footnote-badge">COLOMBO 07</span>
-              <span>100% Ethical &bull; Handcrafted in Sri Lanka</span>
-            </div>
+    <!-- Sign In Modal (Simple, Clean & Responsive) -->
+    <div id="accountModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="accountModalTitle">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div>
+            <h3 id="accountModalTitle">Sign In</h3>
+            <p id="accountModalSubtitle" class="modal-subtitle">Sign in to add items to your bag, track orders, and view wishlist</p>
           </div>
-
-          <!-- Right Pane: Interactive Auth Console -->
-          <div class="auth-form-pane">
-            <!-- Mode Switcher: Sign In vs Join Circle -->
-            <div class="auth-tab-row">
-              <button type="button" id="authTabSignIn" class="auth-tab-btn active">Sign In</button>
-              <button type="button" id="authTabRegister" class="auth-tab-btn">Join VIP Circle</button>
-            </div>
-
-            <!-- Quick Demo Credentials for Fast Evaluator/Tester Access -->
-            <div class="auth-quick-fill">
-              <span class="quick-fill-label">Instant Demo:</span>
-              <div class="quick-fill-chips">
-                <button type="button" class="quick-chip-btn" data-demo-email="devindi@styleo.lk" data-demo-name="Devindi" data-demo-pass="Styleo2026">
-                  <span>✦ Devindi (VIP)</span>
-                </button>
-                <button type="button" class="quick-chip-btn" data-demo-email="hanan@atelier.lk" data-demo-name="Hanan" data-demo-pass="Colombo2026">
-                  <span>✦ Hanan (Colombo)</span>
-                </button>
-              </div>
-            </div>
-
-            <form id="accountForm" class="auth-form">
-              <!-- Name input (shown when register tab active) -->
-              <div class="form-group auth-field-name hidden" id="authNameGroup">
-                <label for="accName">Full Name</label>
-                <div class="input-with-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                  </svg>
-                  <input id="accName" type="text" placeholder="e.g. Maya Fernando" autocomplete="name" />
-                </div>
-              </div>
-
-              <!-- Email / Mobile input -->
-              <div class="form-group">
-                <label for="accEmail">Email or Mobile Number</label>
-                <div class="input-with-icon">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                    <polyline points="22,6 12,13 2,6" />
-                  </svg>
-                  <input id="accEmail" type="text" placeholder="0771234567 or email@domain.com" required autocomplete="username" />
-                </div>
-              </div>
-
-              <!-- Password input with reveal toggle -->
-              <div class="form-group">
-                <div class="label-split-row">
-                  <label for="accPass">Password</label>
-                  <button type="button" id="forgotPassBtn" class="auth-text-link">Forgot Password?</button>
-                </div>
-                <div class="input-with-icon input-password-wrap">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                  </svg>
-                  <input id="accPass" type="password" placeholder="••••••••" required autocomplete="current-password" />
-                  <button type="button" id="togglePassVisibility" class="pass-toggle-btn" aria-label="Toggle password visibility">
-                    <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Remember Me -->
-              <div class="auth-options-row">
-                <label class="custom-checkbox-label">
-                  <input type="checkbox" id="rememberMeCheckbox" checked />
-                  <span>Keep me signed in on this device</span>
-                </label>
-              </div>
-
-              <!-- Submit Button -->
-              <button type="submit" id="authSubmitBtn" class="primary-pill-btn full-width auth-submit-btn">
-                <span id="authSubmitBtnText">Enter STYLEO Atelier</span>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </button>
-
-              <!-- Alternative Fast Access Divider -->
-              <div class="auth-divider">
-                <span>OR ACCESS VIA</span>
-              </div>
-
-              <!-- Fast One-Tap Options -->
-              <div class="auth-social-row">
-                <button type="button" id="whatsappOtpBtn" class="auth-alt-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                  </svg>
-                  <span>WhatsApp OTP</span>
-                </button>
-                <button type="button" id="googleFastBtn" class="auth-alt-btn">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="16" />
-                    <line x1="8" y1="12" x2="16" y2="12" />
-                  </svg>
-                  <span>Google Account</span>
-                </button>
-              </div>
-
-              <!-- Security Guarantee -->
-              <div class="auth-security-note">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-                <span>256-Bit SSL Encrypted &bull; Zero Spam Guarantee</span>
-              </div>
-            </form>
-          </div>
+          <button id="closeAccountBtn" class="close-icon-btn" aria-label="Close dialog">&times;</button>
         </div>
 
-        <!-- Dynamic Container 2: Authenticated Active Member Profile View -->
-        <div id="authContentLoggedIn" class="auth-profile-card hidden">
-          <div class="auth-profile-header">
-            <div class="auth-avatar-circle" id="profileAvatarInitial">D</div>
-            <div>
-              <span class="auth-tier-badge">✦ STYLEO CIRCLE VIP</span>
-              <h3 id="profileDisplayName">Devindi Jayasinghe</h3>
-              <p id="profileDisplayEmail" class="modal-subtitle">devindi@styleo.lk</p>
+        <!-- Logged Out: Simple Clean Form -->
+        <div id="authContentLoggedOut">
+          <form id="accountForm" class="checkout-form">
+            <div class="form-group">
+              <label for="accEmail">Email or Mobile Number</label>
+              <input
+                id="accEmail"
+                type="text"
+                name="email"
+                placeholder="0771234567 or email@domain.com"
+                required
+                autocomplete="username"
+              />
             </div>
-          </div>
 
-          <div class="auth-profile-perks-grid">
-            <div class="profile-perk-box">
-              <span class="perk-box-title">Exclusive Member Code</span>
-              <div class="perk-code-row">
-                <code>CEYLON10</code>
-                <span class="perk-tag">10% Active</span>
-              </div>
-              <small style="color: var(--text-muted); font-size: 0.76rem;">Valid on all artisanal Dumbara weaves &amp; sapphire pieces</small>
+            <div class="form-group">
+              <label for="accPass">Password</label>
+              <input
+                id="accPass"
+                type="password"
+                name="password"
+                placeholder="••••••••"
+                required
+                autocomplete="current-password"
+              />
             </div>
-            <div class="profile-perk-box">
-              <span class="perk-box-title">Delivery Privilege</span>
-              <strong style="color: var(--success); font-size: 1.05rem;">Free Islandwide Express</strong>
-              <small style="color: var(--text-muted); font-size: 0.76rem;">Partnered with Domex &amp; Koombiyo Express</small>
-            </div>
-          </div>
 
-          <div class="auth-profile-actions">
-            <button type="button" id="profileTrackOrdersBtn" class="ghost-pill-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="1" y="3" width="15" height="13" />
-                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-                <circle cx="5.5" cy="18.5" r="2.5" />
-                <circle cx="18.5" cy="18.5" r="2.5" />
-              </svg>
-              <span>Track Live Orders</span>
-            </button>
-            <button type="button" id="profileSignOutBtn" class="primary-pill-btn" style="background: var(--mocha-dark);">
-              <span>Sign Out of Atelier</span>
-            </button>
+            <button type="submit" id="authSubmitBtn" class="primary-pill-btn full-width mt-2">Sign In</button>
+          </form>
+        </div>
+
+        <!-- Logged In: Simple Account Info & Sign Out -->
+        <div id="authContentLoggedIn" class="hidden" style="text-align: center; padding: 16px 8px 8px;">
+          <div style="width: 54px; height: 54px; margin: 0 auto 12px; border-radius: 50%; background: var(--dark-luxury); color: #FFFFFF; font-size: 1.4rem; font-weight: 700; display: grid; place-items: center;" id="profileAvatarInitial">
+            M
+          </div>
+          <h4 id="profileDisplayName" style="margin-bottom: 4px;">Member</h4>
+          <p id="profileDisplayEmail" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px;">member@example.com</p>
+          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <button type="button" id="profileTrackOrdersBtn" class="ghost-pill-btn" style="flex: 1; min-width: 140px;">Track Orders</button>
+            <button type="button" id="profileSignOutBtn" class="primary-pill-btn" style="flex: 1; min-width: 140px; background: var(--mocha-dark);">Sign Out</button>
           </div>
         </div>
       </div>
