@@ -712,6 +712,28 @@ function handleAuthAction() {
 // --- 7. Drawer & Modal Management ---
 function openModal(modalEl) {
   if (!modalEl) return;
+
+  // If opening the authentication modal, synchronize profile vs login view
+  if (modalEl === els.accountModal) {
+    const loggedOutView = document.getElementById("authContentLoggedOut");
+    const loggedInView = document.getElementById("authContentLoggedIn");
+    if (state.user) {
+      if (loggedOutView) loggedOutView.classList.add("hidden");
+      if (loggedInView) {
+        loggedInView.classList.remove("hidden");
+        const initial = document.getElementById("profileAvatarInitial");
+        const dispName = document.getElementById("profileDisplayName");
+        const dispEmail = document.getElementById("profileDisplayEmail");
+        if (initial) initial.textContent = (state.user.name || "M").charAt(0).toUpperCase();
+        if (dispName) dispName.textContent = state.user.name || "STYLEO VIP Member";
+        if (dispEmail) dispEmail.textContent = state.user.email || "devindi@styleo.lk";
+      }
+    } else {
+      if (loggedOutView) loggedOutView.classList.remove("hidden");
+      if (loggedInView) loggedInView.classList.add("hidden");
+    }
+  }
+
   modalEl.classList.remove("hidden");
   els.backdrop.classList.remove("hidden");
   document.body.style.overflow = "hidden";
@@ -861,15 +883,158 @@ if (els.cancelCheckoutBtn) els.cancelCheckoutBtn.addEventListener("click", () =>
 if (els.accountBtn) els.accountBtn.addEventListener("click", handleAuthAction);
 if (els.mobileAccountBtn) els.mobileAccountBtn.addEventListener("click", handleAuthAction);
 if (els.closeAccountBtn) els.closeAccountBtn.addEventListener("click", () => closeModal(els.accountModal));
+
+// Auth Mode Tabs (Sign In vs Join VIP Circle)
+const authTabSignIn = document.getElementById("authTabSignIn");
+const authTabRegister = document.getElementById("authTabRegister");
+const authNameGroup = document.getElementById("authNameGroup");
+const authSubmitBtnText = document.getElementById("authSubmitBtnText");
+const authModalHeading = document.getElementById("authModalHeading");
+
+if (authTabSignIn && authTabRegister) {
+  authTabSignIn.addEventListener("click", () => {
+    authTabSignIn.classList.add("active");
+    authTabRegister.classList.remove("active");
+    if (authNameGroup) authNameGroup.classList.add("hidden");
+    if (authSubmitBtnText) authSubmitBtnText.textContent = "Enter STYLEO Atelier";
+    if (authModalHeading) authModalHeading.textContent = "The Private Circle";
+  });
+
+  authTabRegister.addEventListener("click", () => {
+    authTabRegister.classList.add("active");
+    authTabSignIn.classList.remove("active");
+    if (authNameGroup) authNameGroup.classList.remove("hidden");
+    if (authSubmitBtnText) authSubmitBtnText.textContent = "Join VIP Circle";
+    if (authModalHeading) authModalHeading.textContent = "Create Your Atelier Account";
+    const nameInput = document.getElementById("accName");
+    if (nameInput) setTimeout(() => nameInput.focus(), 100);
+  });
+}
+
+// Quick Demo Login Chips
+document.querySelectorAll(".quick-chip-btn").forEach((chip) => {
+  chip.addEventListener("click", () => {
+    const email = chip.getAttribute("data-demo-email");
+    const name = chip.getAttribute("data-demo-name");
+    const pass = chip.getAttribute("data-demo-pass");
+    const emailInput = document.getElementById("accEmail");
+    const passInput = document.getElementById("accPass");
+    const nameInput = document.getElementById("accName");
+    if (emailInput) emailInput.value = email;
+    if (passInput) passInput.value = pass;
+    if (nameInput) nameInput.value = name;
+    showToast(`Loaded VIP credentials for ${name}!`);
+  });
+});
+
+// Password Reveal / Hide Toggle
+const togglePassVisibility = document.getElementById("togglePassVisibility");
+if (togglePassVisibility) {
+  togglePassVisibility.addEventListener("click", () => {
+    const passInput = document.getElementById("accPass");
+    const eyeIcon = document.getElementById("eyeIcon");
+    if (!passInput) return;
+    const isPassword = passInput.type === "password";
+    passInput.type = isPassword ? "text" : "password";
+    if (eyeIcon) {
+      if (isPassword) {
+        eyeIcon.innerHTML = `
+          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+          <line x1="1" y1="1" x2="23" y2="23" />
+        `;
+      } else {
+        eyeIcon.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+          <circle cx="12" cy="12" r="3" />
+        `;
+      }
+    }
+  });
+}
+
+// Forgot Password Trigger
+const forgotPassBtn = document.getElementById("forgotPassBtn");
+if (forgotPassBtn) {
+  forgotPassBtn.addEventListener("click", () => {
+    const emailInput = document.getElementById("accEmail");
+    const target = (emailInput && emailInput.value.trim()) || "registered mobile/email";
+    showToast(`Password reset link dispatched to ${target}`);
+  });
+}
+
+// Fast WhatsApp OTP Demo Login
+const whatsappOtpBtn = document.getElementById("whatsappOtpBtn");
+if (whatsappOtpBtn) {
+  whatsappOtpBtn.addEventListener("click", () => {
+    state.user = {
+      name: "Devindi",
+      email: "077 451 2990",
+      token: "VIP-" + Math.floor(1000 + Math.random() * 9000),
+      loggedInAt: new Date().toISOString()
+    };
+    localStorage.setItem("styleo-user", JSON.stringify(state.user));
+    updateAuthUI();
+    closeModal(els.accountModal);
+    showToast("Authenticated via WhatsApp Mobile OTP! Welcome Devindi.");
+    if (state.pendingCartItem) {
+      const p = state.pendingCartItem;
+      state.pendingCartItem = null;
+      setTimeout(() => addToCart(p.id, p.customItem), 350);
+    }
+  });
+}
+
+// Fast Google Account Demo Login
+const googleFastBtn = document.getElementById("googleFastBtn");
+if (googleFastBtn) {
+  googleFastBtn.addEventListener("click", () => {
+    state.user = {
+      name: "Maya Fernando",
+      email: "maya.fernando@gmail.com",
+      token: "VIP-" + Math.floor(1000 + Math.random() * 9000),
+      loggedInAt: new Date().toISOString()
+    };
+    localStorage.setItem("styleo-user", JSON.stringify(state.user));
+    updateAuthUI();
+    closeModal(els.accountModal);
+    showToast("Connected via Google Account! Welcome Maya.");
+    if (state.pendingCartItem) {
+      const p = state.pendingCartItem;
+      state.pendingCartItem = null;
+      setTimeout(() => addToCart(p.id, p.customItem), 350);
+    }
+  });
+}
+
+// Authenticated Profile Actions
+const profileSignOutBtn = document.getElementById("profileSignOutBtn");
+if (profileSignOutBtn) {
+  profileSignOutBtn.addEventListener("click", () => {
+    closeModal(els.accountModal);
+    handleAuthAction();
+  });
+}
+
+const profileTrackOrdersBtn = document.getElementById("profileTrackOrdersBtn");
+if (profileTrackOrdersBtn) {
+  profileTrackOrdersBtn.addEventListener("click", () => {
+    closeModal(els.accountModal);
+    const dash = document.getElementById("dashboard");
+    if (dash) dash.scrollIntoView({ behavior: "smooth" });
+  });
+}
+
 if (els.accountForm) {
   els.accountForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const emailInput = document.getElementById("accEmail");
     const passInput = document.getElementById("accPass");
+    const nameInput = document.getElementById("accName");
     const rawVal = (emailInput ? emailInput.value : "").trim();
+    const specifiedName = (nameInput ? nameInput.value : "").trim();
 
-    let displayName = "Member";
-    if (rawVal) {
+    let displayName = specifiedName || "Member";
+    if (!specifiedName && rawVal) {
       if (rawVal.includes("@")) {
         displayName = rawVal.split("@")[0];
       } else {
