@@ -205,27 +205,9 @@ if (!initialUser) {
   localStorage.removeItem("styleo-cart");
 }
 
-// Seed default initial order if fresh environment
-if (!state.orders.length) {
-  state.orders = [
-    {
-      id: "DOMEX-LK-89421",
-      date: "05/09/2026",
-      customer: {
-        name: "Devindi Jayasinghe",
-        phone: "0774512990",
-        district: "Colombo 1-15",
-        city: "Colombo 07"
-      },
-      items: [
-        { id: 1, name: "Oversized Tailored Mocha Blazer", price: 8900, qty: 1 },
-        { id: 4, name: "Sculptural Leather Shoulder Bag", price: 6900, qty: 1 }
-      ],
-      total: 15800,
-      paymentMethod: "Koko Pay in 3",
-      status: "Out for Delivery (Colombo Hub)"
-    }
-  ];
+// Clear any legacy default demo order from previous sessions
+if (state.orders.length) {
+  state.orders = state.orders.filter((o) => o.id !== "DOMEX-LK-89421");
   localStorage.setItem("styleo-orders", JSON.stringify(state.orders));
 }
 
@@ -562,7 +544,16 @@ function renderCart() {
 
 function renderOrders() {
   if (!state.orders.length) {
-    els.ordersList.innerHTML = `<p style="font-size:0.86rem; color:var(--text-light); text-align:center; padding-block:20px;">No active orders.</p>`;
+    els.ordersList.innerHTML = `
+      <div style="text-align:center; padding: 22px 10px; color: var(--text-light);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom:8px; opacity:0.45; display:inline-block;">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+        <p style="font-size:0.86rem; margin:0; font-weight:600; color:var(--text-main);">No active orders yet</p>
+        <small style="font-size:0.78rem; opacity:0.8; display:block; margin-top:4px;">Place an order to track live delivery status.</small>
+      </div>
+    `;
     return;
   }
 
